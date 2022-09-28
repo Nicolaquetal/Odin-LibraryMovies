@@ -11,8 +11,8 @@
 </head>
 <body>
     <div class="header">
-        <button class="add">ADD A MOVIE</button>
-        <button class="test">test</button>
+        <button class="openform">ADD A MOVIE</button>
+        
         
     </div>
     <div class="content">
@@ -27,21 +27,41 @@
                 <th class="long">Comment</th>
                 <th class="short">Del</th>
             </thead>
-            <tr>
-                <td>
-                    <img src="" alt="Image">
-                </td>
-                <td>Mandibules</td>
-                <td>Canal+</td>
-                <td>Y</td>
-                <td>19/02/2022</td>
-                <td>1/5</td>
-                <td>none</td>
-                <td>X</td>
-            </tr>
-
         </table>
+        
+        <form class="form" onsubmit="return false">
+            <label for="Pos"><b>Position</b></label>
+            <input type="text" name="Pos" id="Pos">
+
+            <label for="Im"><b>Image</b></label>
+            <input type="text" name="Im" id="Im">
+
+            <label for="Title"><b>Title</b></label>
+            <input type="text" name="Title" id="Title">
+
+            <label for="Plat"><b>Plateform</b></label>
+            <input type="text" name="Plat" id="Plat">
+
+            <label for="Seen"><b>Seen?</b></label>
+            <input type="text" name="Seen" id="Seen">
+
+            <label for="Date"><b>Date</b></label>
+            <input type="text" name="Date" id="Date">
+
+            <label for="Rate"><b>Rating</b></label>
+            <input type="text" name="Rate" id="Rate">
+
+            <label for="Com"><b>Comment</b></label>
+            <input type="text" name="Com" id="Com">
+
+            <button class="add"><b>Add Movie</b></button>
+            <button class="btnCancel"><b>Close</b></button>
+        </form>
+          
+
+
     </div>
+
     
 </body>
 </html>
