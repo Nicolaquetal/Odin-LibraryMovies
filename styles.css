@@ -28,6 +28,14 @@ input{
     border-radius: 10px;
     height: 20px;
 }
+.divtog{
+    background-color: green;
+}
+.divtog.clicked{
+    background-color: red;
+    
+}
+
 
 .add,.btnCancel{
     width: 150px;

@@ -1,70 +1,99 @@
 const btnOpenform = document.querySelector('.openform');
-btnOpenform.addEventListener('click',openForm);
 const btnCloseform = document.querySelector('.btnCancel');
-btnCloseform.addEventListener('click',closeForm);
-
 const btnAdd = document.querySelector('.add');
 const table=document.querySelector('table');
 
-
-
 let myLibrary = [];
+
+btnOpenform.addEventListener('click',openForm);
+btnCloseform.addEventListener('click',closeForm);
 btnAdd.addEventListener('click',()=>{
-    const Pos=document.querySelector('#Pos').value;
     const Im=document.querySelector('#Im').value;
     const Title=document.querySelector('#Title').value;
     const Plat=document.querySelector('#Plat').value;
-    const Seen=document.querySelector('#Seen').value;
     const Date=document.querySelector('#Date').value;
     const Rate=document.querySelector('#Rate').value;
     const Com=document.querySelector('#Com').value;
-    createMovie(myLibrary,Pos,Im,Title,Plat,Seen,Date,Rate,Com);
-    console.log(Pos);
+    const Seen=document.querySelector('#Seen').value;
+    addMovieToLibrary(myLibrary,Im,Title,Plat,Seen,Date,Rate,Com);
+    cleanDOM();
+    displayLibrary(myLibrary);
     closeForm();
 });
 
 
-
-function Movie (Position,Image, Title, Plateform,Seen, Date,Rating,Comment){
-    this.Position=Position;
+function Movie (Image, Title, Plateform, Date,Rating,Comment,Seen){
     this.Image=Image;
     this.Title=Title;
     this.Plateform=Plateform;
-    this.Seen=Seen;
     this.Date=Date;
     this.Rating=Rating;
     this.Comment=Comment;
+    this.Seen=Seen;
 }
 
-function addMovieToLibrary(Movie,Library){
-    Library.push(Movie);
-}
-
-function createMovie(Library,Pos,Im,Title,Plat,Seen,Date,Rate,Com){
-    let newMovie = new Movie(Pos,Im,Title,Plat,Seen,Date,Rate,Com);
+function addMovieToLibrary(Library,Im,Title,Plat,Date,Rate,Com,Seen){
+    let newMovie = new Movie(Im,Title,Plat,Date,Rate,Com,Seen);
     Library.push(newMovie);
-    
-    let tr = document.createElement('tr');
-    const newMovieAttribute =[newMovie.Image, newMovie.Title, newMovie.Plateform,newMovie.Seen, newMovie.Date,newMovie.Rating,newMovie.Comment]
-    for(let i=0;i<7;i++){
-        let td = document.createElement('td');
-        var newContent = document.createTextNode(`${newMovieAttribute[i]}`);
-        td.appendChild(newContent);
-        tr.appendChild(td);
-    }
-    let td = document.createElement('td');
-    let btn = document.createElement('button');
-    var newContent = document.createTextNode("X");
-    btn.appendChild(newContent);
-    td.appendChild(btn);
-    tr.appendChild(td);
-
-    table.appendChild(tr);
-    
-    
 }
 
+function displayLibrary(Library){  
+    for(i=0; i<Library.length;i++){
+        let tr = document.createElement('tr');
+        tr.classList.add('removable');
+        tr.classList.add(`N${i}`)
+        const newMovieAttribute =[Library[i].Image, Library[i].Title, Library[i].Plateform, Library[i].Date,Library[i].Rating,Library[i].Comment,Library[i].Seen]
+        for(let j=0;j<6;j++){
+            let td = document.createElement('td');
+            var newContent = document.createTextNode(`${newMovieAttribute[j]}`);
+            td.appendChild(newContent);
+            tr.appendChild(td);
+        }
+        let td1 = document.createElement('td');
+        td1.classList.add('divtog')
+        let btn1 = document.createElement('button');
+        btn1.classList.add('Tog');
+        /*btn1.classList.add(`N${i}`);*/
+        var newContent1 = document.createTextNode("Y");
+        btn1.appendChild(newContent1);
+        td1.appendChild(btn1);
+        tr.appendChild(td1);
 
+        let td = document.createElement('td');
+        let btn = document.createElement('button');
+        btn.classList.add('Del');
+        btn.classList.add(`N${i}`);
+        var newContent = document.createTextNode("X");
+        btn.appendChild(newContent);
+        td.appendChild(btn);
+        tr.appendChild(td);
+        table.appendChild(tr);
+    }
+    toggleButton();  
+    delMovie(Library);
+}
+
+function delMovie(Library){
+    const btnDel = document.querySelectorAll('.Del');
+    btnDel.forEach((z)=> z.addEventListener('click',(e)=>{
+        Library.splice(parseInt(`${e.target.classList[1][1]}`), 1);
+        cleanDOM();
+        displayLibrary(Library);
+        }));
+}
+
+function toggleButton(){
+    const btnTog = document.querySelectorAll('.Tog');
+    btnTog.forEach((z)=>z.addEventListener('click',(e)=>{
+        e.target.parentElement.classList.toggle('clicked');
+        e.target.textContent == 'Y' ? e.target.textContent = 'N' : e.target.textContent = 'Y';
+    } ))
+}
+
+function cleanDOM(){
+    const e = document.querySelectorAll('.removable');
+    e.forEach((z)=>{z.remove();}) 
+}
 
 function openForm() {
     document.querySelector(".form").style.display = "flex";   
