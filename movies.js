@@ -15,12 +15,11 @@ btnAdd.addEventListener('click',()=>{
     const Rate=document.querySelector('#Rate').value;
     const Com=document.querySelector('#Com').value;
     const Seen=document.querySelector('#Seen').value;
-    addMovieToLibrary(myLibrary,Im,Title,Plat,Seen,Date,Rate,Com);
+    addMovieToLibrary(myLibrary,Im,Title,Plat,Date,Rate,Com,Seen);
     cleanDOM();
     displayLibrary(myLibrary);
     closeForm();
 });
-
 
 function Movie (Image, Title, Plateform, Date,Rating,Comment,Seen){
     this.Image=Image;
@@ -53,12 +52,19 @@ function displayLibrary(Library){
         td1.classList.add('divtog')
         let btn1 = document.createElement('button');
         btn1.classList.add('Tog');
-        /*btn1.classList.add(`N${i}`);*/
-        var newContent1 = document.createTextNode("Y");
-        btn1.appendChild(newContent1);
-        td1.appendChild(btn1);
+        btn1.classList.add(`N${i}`);
+        if(Library[i].Seen == 'N' ){
+            var newContent1 = document.createTextNode('N');
+            btn1.appendChild(newContent1);
+            td1.appendChild(btn1);
+            td1.classList.add('clicked');
+        }
+        else{
+            var newContent1 = document.createTextNode('Y');
+            btn1.appendChild(newContent1);
+            td1.appendChild(btn1);
+        }
         tr.appendChild(td1);
-
         let td = document.createElement('td');
         let btn = document.createElement('button');
         btn.classList.add('Del');
@@ -69,7 +75,7 @@ function displayLibrary(Library){
         tr.appendChild(td);
         table.appendChild(tr);
     }
-    toggleButton();  
+    toggleButton(Library);  
     delMovie(Library);
 }
 
@@ -79,15 +85,22 @@ function delMovie(Library){
         Library.splice(parseInt(`${e.target.classList[1][1]}`), 1);
         cleanDOM();
         displayLibrary(Library);
-        }));
+    }));
 }
 
-function toggleButton(){
+function toggleButton(Library){
     const btnTog = document.querySelectorAll('.Tog');
-    btnTog.forEach((z)=>z.addEventListener('click',(e)=>{
+    btnTog.forEach((z)=>z.addEventListener('click',(e)=>{        
         e.target.parentElement.classList.toggle('clicked');
-        e.target.textContent == 'Y' ? e.target.textContent = 'N' : e.target.textContent = 'Y';
-    } ))
+        if(e.target.textContent == 'Y'){
+            e.target.textContent = 'N';
+            Library[parseInt(`${e.target.classList[1][1]}`)].Seen='N';
+        }
+        else{
+            e.target.textContent = 'Y';
+            Library[parseInt(`${e.target.classList[1][1]}`)].Seen='Y';
+        }       
+    }));
 }
 
 function cleanDOM(){
@@ -103,8 +116,3 @@ function closeForm() {
     document.querySelector(".form").style.display = "none";  
 }
 
-/*btn add movie -> form > bouton add -> recupere info du form et :
-invoque create object new movie (infos du form)
-invoque addMovieToLibrary
-
-*/
