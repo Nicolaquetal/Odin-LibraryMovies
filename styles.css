@@ -83,6 +83,13 @@ table {
 .short{
     width: 25px;
     padding: 10px 1px;
+}
+.Medium{
+    width : 80px;
+}
+.image{
+    width: 80px;
+    
 }   
     
 td,th {
