@@ -15,27 +15,28 @@ btnAdd.addEventListener('click',()=>{
     const Rate=document.querySelector('#Rate').value;
     const Com=document.querySelector('#Com').value;
     const Seen=document.querySelector('#Seen').value;
-    addMovieToLibrary(myLibrary,Im,Title,Plat,Date,Rate,Com,Seen);
+    let newMovie = new Movie(Im,Title,Plat,Date,Rate,Com,Seen);
+    newMovie.addMovieToLibrary(myLibrary);
     cleanDOM();
     displayLibrary(myLibrary);
     closeForm();
 });
 
-function Movie (Image, Title, Plateform, Date,Rating,Comment,Seen){
-    this.Image=Image;
-    this.Title=Title;
-    this.Plateform=Plateform;
-    this.Date=Date;
-    this.Rating=Rating;
-    this.Comment=Comment;
-    this.Seen=Seen;
-}
+class Movie {
+    constructor (Image, Title, Plateform, Date,Rating,Comment,Seen){
+        this.Image=Image;
+        this.Title=Title;
+        this.Plateform=Plateform;
+        this.Date=Date;
+        this.Rating=Rating;
+        this.Comment=Comment;
+        this.Seen=Seen;
+    }
 
-function addMovieToLibrary(Library,Im,Title,Plat,Date,Rate,Com,Seen){
-    let newMovie = new Movie(Im,Title,Plat,Date,Rate,Com,Seen);
-    Library.push(newMovie);
+    addMovieToLibrary(Library){
+        Library.push(this);
+    }
 }
-
 function displayLibrary(Library){  
     for(i=0; i<Library.length;i++){
         let tr = document.createElement('tr');
